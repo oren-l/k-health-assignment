@@ -1,26 +1,28 @@
 import React from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useQuery, gql } from '@apollo/client'
+
+const exchangeRatesQuery = gql`
+  query GetExchangeRates {
+    rates(currency: "USD") {
+      currency
+      rate
+    }
+  }
+`
 
 function App () {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
+  const { loading, error, data } = useQuery(exchangeRatesQuery)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
+
+  return data.rates.map(({ currency, rate }) => (
+    <div key={currency}>
+      <p>
+        {currency}: {rate}
+      </p>
     </div>
-  )
+  ))
 }
 
 export default App
