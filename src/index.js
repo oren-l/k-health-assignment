@@ -5,7 +5,7 @@ import App from './App'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'https://sxewr.sse.codesandbox.io',
+  uri: 'https://capital-mastodon-23.hasura.app/v1/graphql',
   cache: new InMemoryCache()
 })
 

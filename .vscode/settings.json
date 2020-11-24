@@ -1,4 +1,9 @@
 {
   "standard.engine": "standardx",
-  "standard.autoFixOnSave": true
+  "standard.autoFixOnSave": true,
+  "cSpell.words": [
+    "camelcase",
+    "loadsh",
+    "nonoid"
+  ]
 }

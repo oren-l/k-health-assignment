@@ -1,5 +1,5 @@
 {
-  "name": "basic",
+  "name": "k-health-assignment",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,12 +8,16 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "graphql": "^15.4.0",
+    "loadsh": "0.0.4",
+    "nanoid": "^3.1.18",
+    "ramda": "^0.27.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "^3.4.4",
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
+    "@types/ramda": "types/npm-ramda#dist",
     "standardx": "^6.0.0"
   },
   "scripts": {
