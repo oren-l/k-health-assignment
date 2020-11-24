@@ -3,6 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import * as R from 'ramda'
 import { nanoid } from 'nanoid'
 import './App.css'
+import { Spreadsheet } from './components/Spreadsheet'
 
 const getSpreadsheet = gql`
   query GetSpreadsheet {
@@ -66,36 +67,7 @@ function App () {
   console.log('rows:', rows)
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            {
-              data.headers.map(header => (
-                <th key={header.header_id}>
-                  {header.header_name}
-                </th>
-              ))
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            rows.map(row => (
-              <tr key={row.row_id}>
-                {
-                  row.data.map(rowData => (
-                    <td key={rowData.value_id} title={JSON.stringify(rowData, null, 2)}>
-                      {rowData.value}
-                    </td>
-                  ))
-                }
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+    <Spreadsheet headers={data.headers} rows={rows} />
   )
 }
 
