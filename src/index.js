@@ -5,7 +5,7 @@ import App from './App'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'https://48p1r2roz4.sse.codesandbox.io',
+  uri: 'https://sxewr.sse.codesandbox.io',
   cache: new InMemoryCache()
 })
 

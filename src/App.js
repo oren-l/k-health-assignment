@@ -1,39 +1,72 @@
-import React from 'react'
-import { useQuery, gql } from '@apollo/client'
+import React, { useState } from 'react'
+import { useMutation, useQuery, gql } from '@apollo/client'
 
-const exchangeRatesQuery = gql`
-  query GetExchangeRates($currency: String!) {
-    rates(currency: $currency) {
-      currency
-      rate
+const getTodosQuery = gql`
+  query GetTodos {
+    todos {
+      id
+      type
+    }
+}
+`
+
+const addTodoQuery = gql`
+  mutation AddTodo($type: String!) {
+    addTodo(type: $type) {
+      id
+      type
     }
   }
 `
 
-function App () {
-  const { loading, error, data, refetch } = useQuery(exchangeRatesQuery, {
-    variables: {
-      currency: 'ILS'
-    },
-    pollInterval: 5000,
-    notifyOnNetworkStatusChange: true
-  })
+function AddTodo () {
+  const [value, setValue] = useState('')
+  const [addTodo] = useMutation(addTodoQuery)
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :(</p>
+  const submitHandler = event => {
+    event.preventDefault()
+    addTodo({
+      variables: {
+        type: value
+      },
+      refetchQueries: ['GetTodos']
+    })
+    setValue('')
+  }
 
   return (
     <div>
-      <button onClick={() => refetch()}>Refresh</button>
-      {
-        data.rates.map(({ currency, rate }) => (
-          <div key={currency}>
-            <p>
-              {currency}: {rate}
-            </p>
-          </div>
-        ))
-      }
+      <form onSubmit={submitHandler}>
+        <input type='text' value={value} onChange={(event) => { setValue(event.target.value) }} />
+        <button type='submit'>Add Todo</button>
+      </form>
+    </div>
+  )
+}
+
+function App () {
+  const { loading, error, data } = useQuery(getTodosQuery)
+  if (loading) {
+    return 'Loading...'
+  }
+
+  if (error) {
+    return 'Error :('
+  }
+
+  return (
+    <div>
+      <ul>
+        {
+          data.todos.map(todo => (
+            <li key={todo.id}>
+              {todo.type}
+            </li>
+          ))
+        }
+      </ul>
+      <hr />
+      <AddTodo />
     </div>
   )
 }
