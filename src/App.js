@@ -2,8 +2,8 @@ import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 
 const exchangeRatesQuery = gql`
-  query GetExchangeRates {
-    rates(currency: "USD") {
+  query GetExchangeRates($currency: String!) {
+    rates(currency: $currency) {
       currency
       rate
     }
@@ -11,18 +11,31 @@ const exchangeRatesQuery = gql`
 `
 
 function App () {
-  const { loading, error, data } = useQuery(exchangeRatesQuery)
+  const { loading, error, data, refetch } = useQuery(exchangeRatesQuery, {
+    variables: {
+      currency: 'ILS'
+    },
+    pollInterval: 5000,
+    notifyOnNetworkStatusChange: true
+  })
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
 
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
-      </p>
+  return (
+    <div>
+      <button onClick={() => refetch()}>Refresh</button>
+      {
+        data.rates.map(({ currency, rate }) => (
+          <div key={currency}>
+            <p>
+              {currency}: {rate}
+            </p>
+          </div>
+        ))
+      }
     </div>
-  ))
+  )
 }
 
 export default App
