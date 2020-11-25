@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Cell } from './Cell'
 
 export function Spreadsheet ({ headers, rows }) {
+  const [editId, setEditId] = useState(null)
+
+  const handleUpdate = (id, value) => {
+    handleEditDone()
+    console.log(`update id ${id} with value: '${value}'`)
+    // TODO update data
+  }
+
+  const handleEditDone = () => {
+    setEditId(null)
+  }
+
   return (
     <table>
       <thead>
@@ -20,9 +33,14 @@ export function Spreadsheet ({ headers, rows }) {
             <tr key={row.row_id}>
               {
                 row.data.map(rowData => (
-                  <td key={rowData.value_id} title={JSON.stringify(rowData, null, 2)}>
-                    {rowData.value}
-                  </td>
+                  <Cell
+                    key={rowData.value_id}
+                    data={rowData}
+                    isEditing={editId === rowData.value_id}
+                    onEditStart={() => { setEditId(rowData.value_id) }}
+                    onEditSubmit={(value) => handleUpdate(rowData.value_id, value)}
+                    onEditCancel={handleEditDone}
+                  />
                 ))
               }
             </tr>

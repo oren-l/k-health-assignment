@@ -2,6 +2,7 @@
   "standard.engine": "standardx",
   "standard.autoFixOnSave": true,
   "cSpell.words": [
+    "ahooks",
     "camelcase",
     "loadsh",
     "nonoid"
